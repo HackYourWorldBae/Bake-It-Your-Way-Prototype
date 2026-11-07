@@ -1,26 +1,68 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-terracotta: #C87D55;
+  --color-terracotta-dark: #BF6B3E;
+  --color-terracotta-light: #E8A783;
+
+  --color-roast: #2C221E;
+  --color-roast-light: #4A3B34;
+
+  --color-cream: #FBF8F5;
+  --color-cream-card: #FFFFFF;
+  --color-cream-border: #EDE5DE;
+
+  --color-matcha: #5E8A75;
+  --color-matcha-light: #E2ECE7;
+
+  --color-honey: #E29E4B;
+  --color-honey-light: #F9ECD7;
+
+  --font-serif: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-sans: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #FBF8F5;
+  --foreground: #2C221E;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom warm parchment background pattern */
+.bg-warm-pattern {
+  background-color: #FBF8F5;
+  background-image: radial-gradient(#EDE5DE 0.75px, transparent 0.75px), radial-gradient(#EDE5DE 0.75px, #FBF8F5 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* Custom scrollbar for boutique experience */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FBF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #E8A783;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C87D55;
+}
+
+/* Smooth selection */
+::selection {
+  background-color: #E8A783;
+  color: #2C221E;
 }
