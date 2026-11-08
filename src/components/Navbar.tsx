@@ -17,8 +17,8 @@ export function Navbar() {
     { name: 'Our Science', href: '/#science' },
     { name: 'Artisan Bases', href: '/#bases' },
     { name: 'Custom Studio', href: '/builder' },
+    { name: 'Mobile App', href: '/download' },
     { name: 'Kitchen Locations', href: '/#locations' },
-    { name: 'Founders', href: '/#founders' },
   ];
 
   return (

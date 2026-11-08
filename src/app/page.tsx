@@ -422,6 +422,7 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center gap-6">
             <Link href="/builder" className="hover:text-terracotta">Custom Studio</Link>
+            <Link href="/download" className="hover:text-terracotta text-terracotta font-medium">Download App (APK)</Link>
             <a href="#bases" className="hover:text-terracotta">Flour Guide</a>
             <a href="#locations" className="hover:text-terracotta">Kitchens</a>
           </div>
