@@ -13,10 +13,11 @@ import {
   Sparkles,
   QrCode,
   ArrowRight,
+  ExternalLink,
 } from 'lucide-react';
 
 const GITHUB_RELEASE_URL =
-  'https://github.com/HackYourWorldBae/Bake-It-Your-Way-Prototype/releases/latest/download/bake-it-your-way.apk';
+  'https://github.com/HackYourWorldBae/Bake-It-Your-Way-Prototype/releases/latest/download/Bake.It.Your.Way.apk';
 
 const GITHUB_RELEASES_PAGE =
   'https://github.com/HackYourWorldBae/Bake-It-Your-Way-Prototype/releases';
@@ -25,7 +26,8 @@ export default function DownloadPage() {
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
 
-  const sha256Hash = 'EA86D6447389E999F7C14BA97E11F839FB8F3639E5203BC2009CDA1087A9412E';
+  // Exact SHA-256 digest of the uploaded Bake.It.Your.Way.apk release
+  const sha256Hash = 'EE7E1893B64611848EB22AF4A562FF16579DF4688AB6B4EE629DD47469A6CF70';
 
   const copyHash = () => {
     navigator.clipboard.writeText(sha256Hash);
@@ -37,7 +39,7 @@ export default function DownloadPage() {
     {
       num: '01',
       title: 'Download APK',
-      desc: 'Tap the direct download button to save the 48.1 MB release package directly to your Android device.',
+      desc: 'Tap the direct download button to save Bake.It.Your.Way.apk (48.2 MB) to your Android device.',
     },
     {
       num: '02',
@@ -61,7 +63,7 @@ export default function DownloadPage() {
         <section className="text-center max-w-2xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream-card border border-cream-border text-xs font-semibold text-terracotta">
             <Sparkles className="w-3.5 h-3.5 text-honey" />
-            <span>Android Release v1.0.0</span>
+            <span>Official Android Release v1.0.0</span>
           </div>
 
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-roast tracking-tight leading-tight">
@@ -76,12 +78,11 @@ export default function DownloadPage() {
           {/* Primary Action Buttons */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
-              href="/api/download"
-              download="bake-it-your-way.apk"
+              href={GITHUB_RELEASE_URL}
               className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-terracotta hover:bg-terracotta-dark text-white font-semibold text-sm shadow-md shadow-terracotta/20 flex items-center justify-center gap-2.5 transition-all active:scale-98 cursor-pointer"
             >
               <Download className="w-4 h-4" />
-              <span>Download Direct APK (48.1 MB)</span>
+              <span>Download Direct APK (48.2 MB)</span>
             </a>
 
             <button
@@ -94,23 +95,24 @@ export default function DownloadPage() {
             </button>
           </div>
 
-          {/* Mirror & CDN fallback links */}
+          {/* Fallback & Mirror Links */}
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-roast/60 pt-1">
-            <span>Mirror:</span>
+            <span>Direct CDN:</span>
             <a
               href={GITHUB_RELEASE_URL}
               className="text-terracotta hover:underline font-medium"
             >
-              GitHub Release Direct CDN
+              Bake.It.Your.Way.apk
             </a>
             <span>•</span>
             <a
               href={GITHUB_RELEASES_PAGE}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-roast/70 hover:text-roast underline"
+              className="text-roast/70 hover:text-roast underline inline-flex items-center gap-1"
             >
-              All Releases
+              <span>GitHub Release Assets</span>
+              <ExternalLink className="w-3 h-3" />
             </a>
           </div>
 
@@ -172,7 +174,7 @@ export default function DownloadPage() {
               </svg>
             </div>
             <span className="text-[11px] text-roast/50 block font-mono">
-              /api/download
+              Bake.It.Your.Way.apk
             </span>
           </div>
         )}
@@ -272,7 +274,7 @@ export default function DownloadPage() {
           </Link>
           <div className="flex items-center gap-6">
             <Link href="/builder" className="hover:text-terracotta">Custom Studio</Link>
-            <a href="/api/download" className="hover:text-terracotta font-medium text-terracotta">Direct APK</a>
+            <a href={GITHUB_RELEASE_URL} className="hover:text-terracotta font-medium text-terracotta">Direct APK</a>
             <a href={GITHUB_RELEASES_PAGE} target="_blank" rel="noopener noreferrer" className="hover:text-terracotta">GitHub Releases</a>
           </div>
           <p>© 2026 Bake It Your Way Inc.</p>
