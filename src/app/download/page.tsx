@@ -15,6 +15,12 @@ import {
   ArrowRight,
 } from 'lucide-react';
 
+const GITHUB_RELEASE_URL =
+  'https://github.com/HackYourWorldBae/Bake-It-Your-Way-Prototype/releases/latest/download/bake-it-your-way.apk';
+
+const GITHUB_RELEASES_PAGE =
+  'https://github.com/HackYourWorldBae/Bake-It-Your-Way-Prototype/releases';
+
 export default function DownloadPage() {
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
@@ -88,6 +94,26 @@ export default function DownloadPage() {
             </button>
           </div>
 
+          {/* Mirror & CDN fallback links */}
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-roast/60 pt-1">
+            <span>Mirror:</span>
+            <a
+              href={GITHUB_RELEASE_URL}
+              className="text-terracotta hover:underline font-medium"
+            >
+              GitHub Release Direct CDN
+            </a>
+            <span>•</span>
+            <a
+              href={GITHUB_RELEASES_PAGE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-roast/70 hover:text-roast underline"
+            >
+              All Releases
+            </a>
+          </div>
+
           <div className="text-xs text-roast/50 flex items-center justify-center gap-2 pt-1">
             <span>Direct APK</span>
             <span>•</span>
@@ -146,7 +172,7 @@ export default function DownloadPage() {
               </svg>
             </div>
             <span className="text-[11px] text-roast/50 block font-mono">
-              /downloads/bake-it-your-way.apk
+              /api/download
             </span>
           </div>
         )}
@@ -247,6 +273,7 @@ export default function DownloadPage() {
           <div className="flex items-center gap-6">
             <Link href="/builder" className="hover:text-terracotta">Custom Studio</Link>
             <a href="/api/download" className="hover:text-terracotta font-medium text-terracotta">Direct APK</a>
+            <a href={GITHUB_RELEASES_PAGE} target="_blank" rel="noopener noreferrer" className="hover:text-terracotta">GitHub Releases</a>
           </div>
           <p>© 2026 Bake It Your Way Inc.</p>
         </div>
@@ -254,4 +281,3 @@ export default function DownloadPage() {
     </div>
   );
 }
-
