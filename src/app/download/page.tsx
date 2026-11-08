@@ -14,6 +14,8 @@ import {
   QrCode,
   ArrowRight,
   ExternalLink,
+  HelpCircle,
+  AlertCircle,
 } from 'lucide-react';
 
 const GITHUB_RELEASE_URL =
@@ -25,6 +27,7 @@ const GITHUB_RELEASES_PAGE =
 export default function DownloadPage() {
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
+  const [showTroubleshoot, setShowTroubleshoot] = useState(false);
 
   // Exact SHA-256 digest of the uploaded Bake.It.Your.Way.apk release
   const sha256Hash = 'EE7E1893B64611848EB22AF4A562FF16579DF4688AB6B4EE629DD47469A6CF70';
@@ -79,6 +82,7 @@ export default function DownloadPage() {
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href={GITHUB_RELEASE_URL}
+              download="Bake.It.Your.Way.apk"
               className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-terracotta hover:bg-terracotta-dark text-white font-semibold text-sm shadow-md shadow-terracotta/20 flex items-center justify-center gap-2.5 transition-all active:scale-98 cursor-pointer"
             >
               <Download className="w-4 h-4" />
@@ -123,6 +127,59 @@ export default function DownloadPage() {
             <span>•</span>
             <span className="text-matcha font-medium">Verified Release</span>
           </div>
+
+          {/* Stuck at 100% Helper Trigger */}
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => setShowTroubleshoot(!showTroubleshoot)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-honey/15 hover:bg-honey/25 border border-honey/30 text-xs font-medium text-roast transition-all cursor-pointer"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-honey" />
+              <span>Download stuck at 100% on phone? Tap for 3 quick fixes</span>
+            </button>
+          </div>
+
+          {showTroubleshoot && (
+            <div className="bg-cream-card rounded-2xl p-5 border border-honey/50 shadow-sm text-left space-y-3 animate-in fade-in zoom-in-95 duration-150 max-w-2xl mx-auto">
+              <div className="flex items-center gap-2 text-roast font-semibold text-sm">
+                <AlertCircle className="w-4 h-4 text-honey shrink-0" />
+                <h4>Why Android Chrome pauses at 100%</h4>
+              </div>
+              <p className="text-xs text-roast/70 leading-relaxed">
+                When downloading third-party APKs, Android Chrome holds the file at 100% in a temporary cache until you confirm the standard security prompt. Here is how to finalize it immediately:
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
+                <div className="p-3 rounded-xl bg-cream border border-cream-border space-y-1">
+                  <span className="font-semibold text-terracotta block">
+                    1. Chrome Downloads
+                  </span>
+                  <p className="text-roast/75 leading-relaxed text-[11px]">
+                    Tap Chrome&apos;s <strong>3 dots (⋮) &gt; Downloads</strong>. Find <code>Bake.It.Your.Way.apk</code> and tap <strong>&ldquo;Keep&rdquo;</strong> or <strong>&ldquo;Download anyway&rdquo;</strong>.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-cream border border-cream-border space-y-1">
+                  <span className="font-semibold text-terracotta block">
+                    2. Rename Cached File
+                  </span>
+                  <p className="text-roast/75 leading-relaxed text-[11px]">
+                    Open your phone&apos;s <strong>Files</strong> app &gt; <strong>Downloads</strong>. Find <code>Bake.It.Your.Way.apk.crdownload</code>, tap <strong>Rename</strong>, and remove <code>.crdownload</code>.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-cream border border-cream-border space-y-1">
+                  <span className="font-semibold text-terracotta block">
+                    3. In-App Browser
+                  </span>
+                  <p className="text-roast/75 leading-relaxed text-[11px]">
+                    If opened from Messenger or Instagram, tap <strong>⋮ &gt; &ldquo;Open in Chrome / Browser&rdquo;</strong> (in-app browsers block APK storage writes).
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
         {/* QR Code Popdown / Card */}
