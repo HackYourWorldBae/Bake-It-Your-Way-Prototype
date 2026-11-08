@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import QRCode from 'qrcode';
 import { Navbar } from '@/components/Navbar';
 import { CartDrawer } from '@/components/CartDrawer';
 import {
@@ -31,9 +32,33 @@ export default function DownloadPage() {
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [showTroubleshoot, setShowTroubleshoot] = useState(false);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
+  const [qrMode, setQrMode] = useState<'apk' | 'page'>('apk');
 
   // Exact SHA-256 digest of the uploaded Bake.It.Your.Way.apk release
   const sha256Hash = 'EE7E1893B64611848EB22AF4A562FF16579DF4688AB6B4EE629DD47469A6CF70';
+
+  // Generate valid camera-scannable QR code
+  useEffect(() => {
+    const targetUrl =
+      qrMode === 'apk'
+        ? GITHUB_RELEASE_URL
+        : typeof window !== 'undefined'
+          ? window.location.href
+          : GITHUB_RELEASE_URL;
+
+    QRCode.toDataURL(targetUrl, {
+      width: 360,
+      margin: 2,
+      color: {
+        dark: '#2C221E',
+        light: '#FFFFFF',
+      },
+      errorCorrectionLevel: 'M',
+    })
+      .then((url) => setQrCodeDataUrl(url))
+      .catch((err) => console.error('Failed to generate camera-scannable QR code', err));
+  }, [qrMode]);
 
   const copyHash = () => {
     navigator.clipboard.writeText(sha256Hash);
@@ -187,55 +212,61 @@ export default function DownloadPage() {
 
         {/* QR Code Popdown / Card */}
         {showQr && (
-          <div className="max-w-sm mx-auto bg-cream-card rounded-2xl p-6 border border-cream-border shadow-md text-center space-y-3 animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="font-serif font-bold text-base text-roast">
-              Scan with Android Camera
-            </h3>
-            <p className="text-xs text-roast/65">
-              Point your phone camera to download the APK directly without cables.
-            </p>
-            {/* SVG QR Code Illustration */}
-            <div className="p-4 bg-white rounded-xl border border-cream-border inline-block shadow-inner">
-              <svg viewBox="0 0 120 120" className="w-36 h-36">
-                <rect width="120" height="120" fill="white" />
-                {/* QR Marker Top-Left */}
-                <rect x="10" y="10" width="30" height="30" fill="#2C221E" rx="4" />
-                <rect x="15" y="15" width="20" height="20" fill="white" rx="2" />
-                <rect x="20" y="20" width="10" height="10" fill="#C87D55" rx="1" />
-                {/* QR Marker Top-Right */}
-                <rect x="80" y="10" width="30" height="30" fill="#2C221E" rx="4" />
-                <rect x="85" y="15" width="20" height="20" fill="white" rx="2" />
-                <rect x="90" y="20" width="10" height="10" fill="#C87D55" rx="1" />
-                {/* QR Marker Bottom-Left */}
-                <rect x="10" y="80" width="30" height="30" fill="#2C221E" rx="4" />
-                <rect x="15" y="85" width="20" height="20" fill="white" rx="2" />
-                <rect x="20" y="90" width="10" height="10" fill="#C87D55" rx="1" />
-                {/* Pattern Data Blocks */}
-                <rect x="48" y="14" width="6" height="6" fill="#2C221E" />
-                <rect x="58" y="20" width="6" height="6" fill="#2C221E" />
-                <rect x="66" y="14" width="6" height="6" fill="#C87D55" />
-                <rect x="48" y="32" width="6" height="6" fill="#2C221E" />
-                <rect x="20" y="48" width="6" height="6" fill="#2C221E" />
-                <rect x="32" y="48" width="6" height="6" fill="#C87D55" />
-                <rect x="48" y="48" width="8" height="8" fill="#2C221E" />
-                <rect x="64" y="48" width="8" height="8" fill="#C87D55" />
-                <rect x="80" y="48" width="6" height="6" fill="#2C221E" />
-                <rect x="94" y="48" width="6" height="6" fill="#2C221E" />
-                <rect x="48" y="64" width="6" height="6" fill="#2C221E" />
-                <rect x="60" y="64" width="6" height="6" fill="#C87D55" />
-                <rect x="74" y="64" width="6" height="6" fill="#2C221E" />
-                <rect x="86" y="64" width="6" height="6" fill="#2C221E" />
-                <rect x="48" y="80" width="6" height="6" fill="#2C221E" />
-                <rect x="64" y="80" width="6" height="6" fill="#C87D55" />
-                <rect x="80" y="80" width="8" height="8" fill="#2C221E" />
-                <rect x="94" y="90" width="6" height="6" fill="#2C221E" />
-                <rect x="58" y="96" width="6" height="6" fill="#C87D55" />
-                <rect x="70" y="96" width="6" height="6" fill="#2C221E" />
-              </svg>
+          <div className="max-w-sm mx-auto bg-cream-card rounded-2xl p-6 border border-cream-border shadow-md text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="space-y-1">
+              <h3 className="font-serif font-bold text-base text-roast">
+                Scan with Phone Camera
+              </h3>
+              <p className="text-xs text-roast/65">
+                Point your phone camera to detect and open the download instantly.
+              </p>
             </div>
-            <span className="text-[11px] text-roast/50 block font-mono">
-              Bake.It.Your.Way.apk
-            </span>
+
+            {/* Target mode switcher */}
+            <div className="inline-flex rounded-xl p-1 bg-cream border border-cream-border text-xs">
+              <button
+                type="button"
+                onClick={() => setQrMode('apk')}
+                className={`px-3 py-1 rounded-lg font-medium transition-all cursor-pointer ${
+                  qrMode === 'apk'
+                    ? 'bg-cream-card text-terracotta shadow-xs'
+                    : 'text-roast/60 hover:text-roast'
+                }`}
+              >
+                Direct APK
+              </button>
+              <button
+                type="button"
+                onClick={() => setQrMode('page')}
+                className={`px-3 py-1 rounded-lg font-medium transition-all cursor-pointer ${
+                  qrMode === 'page'
+                    ? 'bg-cream-card text-terracotta shadow-xs'
+                    : 'text-roast/60 hover:text-roast'
+                }`}
+              >
+                Download Page
+              </button>
+            </div>
+
+            {/* Valid Camera-Scannable QR Code */}
+            <div className="p-3 bg-white rounded-xl border border-cream-border inline-block shadow-inner">
+              {qrCodeDataUrl ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={qrCodeDataUrl}
+                  alt="Camera-Scannable QR Code for Bake It Your Way APK"
+                  className="w-48 h-48 rounded-lg block mx-auto"
+                />
+              ) : (
+                <div className="w-48 h-48 flex items-center justify-center text-xs text-roast/40">
+                  Generating QR code...
+                </div>
+              )}
+            </div>
+
+            <div className="text-[11px] text-roast/50 font-mono break-all px-2">
+              {qrMode === 'apk' ? 'Direct APK Package' : 'Mobile Download Studio'}
+            </div>
           </div>
         )}
 
