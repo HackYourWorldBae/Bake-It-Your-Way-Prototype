@@ -18,8 +18,11 @@ import {
   AlertCircle,
 } from 'lucide-react';
 
-const GITHUB_RELEASE_URL =
+const DEFAULT_GITHUB_URL =
   'https://github.com/HackYourWorldBae/Bake-It-Your-Way-Prototype/releases/latest/download/Bake.It.Your.Way.apk';
+
+const GITHUB_RELEASE_URL =
+  process.env.NEXT_PUBLIC_APK_DOWNLOAD_URL || DEFAULT_GITHUB_URL;
 
 const GITHUB_RELEASES_PAGE =
   'https://github.com/HackYourWorldBae/Bake-It-Your-Way-Prototype/releases';
